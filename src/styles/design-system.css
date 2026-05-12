@@ -1,0 +1,61 @@
+/* MIR design system — "Metal" */
+
+:root {
+  /* base */
+  --accent: #9EA0B8;
+  --bg: #0A0A0C;
+  --surface: #121214;
+  --surface-hover: #1a1a1e;
+  --border: rgba(255,255,255,0.07);
+
+  /* text */
+  --text-primary: #EEEEEF;
+  --text-secondary: #7C7C8A;
+  --text-tertiary: #555;
+
+  /* tags */
+  --tag-tracking-bg: #1A1C2E;
+  --tag-tracking-text: #9EA0B8;
+  --tag-urgent-bg: #2B1A1F;
+  --tag-urgent-text: #CB5160;
+  --tag-detected-bg: #1A2B1F;
+  --tag-detected-text: #7AB882;
+  --tag-caution-bg: #2B261A;
+  --tag-caution-text: #DBB97E;
+  --tag-normal-bg: #1F1F24;
+  --tag-normal-text: #7C7C8A;
+
+  /* spacing */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+
+  /* radius */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-full: 999px;
+
+  /* font */
+  --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-family);
+  background: #f5f5f7;
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* scrollbar */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 2px; }
