@@ -44,7 +44,7 @@ export default function ChatScreen({ onNavigate, onBack }) {
       <ScreenHeader
         title="flex AI"
         onBack={onBack}
-        rightActions={<button className="screen-header-btn" onClick={() => setShowHistory(true)}>☰</button>}
+        rightActions={<button className="screen-header-btn" onClick={() => setShowHistory(true)}><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M3 12h18M3 6h18M3 18h18"/></svg></button>}
       />
 
       <div className="chat-messages">

@@ -1230,17 +1230,17 @@
 }
 
 .chat-topic-selector {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 4px;
-  padding: 4px 10px;
+  gap: 6px;
+  padding: 8px 14px;
   background: rgba(255,255,255,0.05);
   border: 1px solid var(--border);
   border-radius: var(--radius-full);
-  font-size: 12px;
+  font-size: 14px;
   color: var(--text-secondary);
   cursor: pointer;
-  margin-bottom: var(--spacing-sm);
+  margin-bottom: 12px;
 }
 
 .ai-message {
