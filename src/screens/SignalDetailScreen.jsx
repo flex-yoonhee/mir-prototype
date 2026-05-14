@@ -39,36 +39,51 @@ export default function SignalDetailScreen({ onNavigate, onBack, data }) {
           </>
         )}
 
-        {/* actions */}
-        {signal.actions && (
+        {/* action items */}
+        {signal.actions && signal.actions.length > 0 && (
           <>
             <div className="detail-label" style={{ marginTop: 16 }}>액션 아이템 제안</div>
-            <ol className="action-list">
-              {signal.actions.map((a, i) => <li key={i}>{i + 1}. {a}</li>)}
+            <ol className="action-items">
+              {signal.actions.map((a, i) => <li key={i}>{a}</li>)}
+            </ol>
+          </>
+        )}
+        {signal.actionItems && signal.actionItems.length > 0 && !signal.actions && (
+          <>
+            <div className="detail-label" style={{ marginTop: 16 }}>액션 아이템 제안</div>
+            <ol className="action-items">
+              {signal.actionItems.map((a, i) => <li key={i}>{a}</li>)}
             </ol>
           </>
         )}
 
         {/* related people */}
-        {signal.relatedPeople && (
+        {signal.relatedPeople && signal.relatedPeople.length > 0 && (
           <>
             <div className="divider" />
             <div className="detail-label">관련 인물</div>
             <div className="related-people">
               {signal.relatedPeople.map((p, i) => (
-                <div className="person-chip" key={i}>
-                  {p.type === 'person'
-                    ? <div className="avatar-sm">{p.name[0]}</div>
-                    : <div className="org-icon">⊞</div>
-                  }
-                  {p.name}
-                </div>
+                p.type === 'person' ? (
+                  <div className="person-chip" key={i}>
+                    <div className="avatar-sm">{p.avatar || p.name[0]}</div>
+                    {p.name}
+                  </div>
+                ) : (
+                  <div className="org-chip" key={i}>
+                    <div className="org-icon">&#x229e;</div>
+                    {p.name}
+                  </div>
+                )
               ))}
             </div>
           </>
         )}
 
-        <button className="signal-card-action" style={{ marginTop: 24 }}>토픽 다시 생성</button>
+        {/* buttons */}
+        <button className="signal-card-action" style={{ marginTop: 24, background: 'var(--surface)' }}>
+          새로운 토픽 생성
+        </button>
         <button
           className="signal-card-action"
           style={{ background: 'var(--accent)', color: 'var(--bg)', border: 'none' }}
@@ -76,6 +91,25 @@ export default function SignalDetailScreen({ onNavigate, onBack, data }) {
         >
           이 주제로 대화
         </button>
+
+        {/* conversations */}
+        {signal.conversations && signal.conversations.length > 0 && (
+          <div style={{ marginTop: 24 }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+              <div className="detail-label">대화 {signal.conversations.length}</div>
+              <button className="section-link" onClick={() => onNavigate('chat')}>+ 새 대화</button>
+            </div>
+            <div className="conversation-list">
+              {signal.conversations.map((c, i) => (
+                <div className="convo-item" key={i} onClick={() => onNavigate('chat')}>
+                  {c.hasUnread && <div className="unread-dot" />}
+                  <div className="convo-title">{c.title}</div>
+                  <div className="convo-date">{c.date}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

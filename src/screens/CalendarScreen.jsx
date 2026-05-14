@@ -50,7 +50,6 @@ export default function CalendarScreen({ onNavigate, onBack }) {
             {calendarEvents.allDay.map((title, i) => (
               <div className="all-day-title" key={i}>{title}</div>
             ))}
-            <div style={{ fontSize: 13, color: 'var(--text-secondary)' }}>하루 종일 이벤트</div>
           </div>
         </div>
       )}
@@ -82,7 +81,7 @@ export default function CalendarScreen({ onNavigate, onBack }) {
               </div>
               {event.conflict && <div className="conflict-badge">일정 충돌</div>}
             </div>
-            {event.avatar && <div className="avatar" />}
+            {event.avatar && <div className="sched-avatar" />}
           </div>
         ))}
       </div>

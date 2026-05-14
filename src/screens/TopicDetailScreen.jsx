@@ -38,7 +38,12 @@ export default function TopicDetailScreen({ onNavigate, onBack }) {
                   <span className="timeline-date">
                     <Tag severity={t.severity} /> {t.date}
                   </span>
-                  {t.change && <span className="timeline-change" style={{ marginLeft: 8 }}>{t.change}</span>}
+                  {t.severityFrom && t.severityTo && (
+                    <span className="severity-transition" style={{ marginLeft: 8 }}>
+                      <Tag severity={t.severityFrom} /> <span className="severity-arrow">→</span> <Tag severity={t.severityTo} />
+                    </span>
+                  )}
+                  {!t.severityFrom && t.change && <span className="timeline-change" style={{ marginLeft: 8 }}>{t.change}</span>}
                 </div>
                 <span style={{ color: 'var(--text-secondary)' }}>{expandedTimeline === i ? '∧' : '∨'}</span>
               </div>
@@ -83,6 +88,13 @@ export default function TopicDetailScreen({ onNavigate, onBack }) {
               )}
             </div>
           ))}
+        </div>
+
+        {/* loading card */}
+        <div className="loading-card">
+          <div className="loading-icon">&#x21BB;</div>
+          <div className="loading-text">데이터를 수집하고 있습니다.</div>
+          <div className="loading-subtext">완료되면 알림을 보내드립니다.</div>
         </div>
 
         <button className="signal-card-action">종료</button>

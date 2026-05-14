@@ -1,28 +1,10 @@
+import { useState } from 'react';
 import Tag from '../components/Tag';
-import { todaysBrief, calendarEvents } from '../data/mock-data';
-
-const trackingTopics = {
-  urgent: {
-    label: '긴급 5',
-    severity: 'urgent',
-    items: [
-      { text: '개발팀 시니어 이탈 징후', dot: true },
-      { text: 'PM팀 번아웃 감지' },
-      { text: 'Product Designer 채용...' },
-    ],
-  },
-  caution: {
-    label: '주의 4',
-    severity: 'caution',
-    items: [
-      { text: '디자인 팀 보상 격차' },
-      { text: '개발팀 시니어 이탈 징후' },
-      { text: 'PM팀 업무 만족도 하락' },
-    ],
-  },
-};
+import { todaysBrief, calendarEvents, homeTopics } from '../data/mock-data';
 
 export default function HomeScreen({ onNavigate }) {
+  const [scheduleTab, setScheduleTab] = useState('schedule');
+
   return (
     <div className="screen">
       {/* header */}
@@ -61,71 +43,109 @@ export default function HomeScreen({ onNavigate }) {
         </div>
       </div>
 
-      {/* 2. tracking topics */}
+      {/* 2. interest topics */}
       <div className="section">
         <div className="section-header">
-          <div className="section-title-sm">✧ 추적중 토픽 9</div>
+          <div className="section-title-sm">✧ 관심 토픽 {homeTopics.length}</div>
           <button className="section-link" onClick={() => onNavigate('topics')}>모든 토픽</button>
         </div>
-        <div className="topic-grid">
-          {Object.values(trackingTopics).map((group, gi) => (
-            <div className="topic-grid-col" key={gi}>
-              <Tag severity={group.severity}>{group.label}</Tag>
-              {group.items.map((item, i) => (
-                <div className="topic-grid-row" key={i} onClick={() => onNavigate('topic-detail')}>
-                  {item.dot && <span className="topic-dot">·</span>}
-                  <span>{item.text}</span>
+        {homeTopics.length === 0 ? (
+          <div className="empty-state-inline">추적중인 토픽이 없습니다.</div>
+        ) : (
+          <div className="home-topic-list">
+            {homeTopics.map((topic) => (
+              <div className="home-topic-item" key={topic.id} onClick={() => onNavigate('topic-detail')}>
+                <div className="home-topic-header">
+                  <span className="home-topic-title">{topic.title}</span>
+                  {topic.isNew && <span className="new-badge-green">NEW</span>}
                 </div>
-              ))}
-            </div>
-          ))}
-        </div>
+                <div className="home-topic-summary">{topic.lastUpdate}</div>
+                <div className="topic-badges">
+                  <span className="topic-badge detected">감지 {topic.stats.detected}건</span>
+                  <span className="topic-badge tracking">추적 {topic.stats.tracking}건</span>
+                  <span className="topic-badge closed">종료 {topic.stats.closed}건</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* 3. today's schedule */}
       <div className="section">
         <div className="section-header">
-          <div className="section-title-sm">📅 오늘 일정 {calendarEvents.events.length}</div>
+          <div className="section-title-sm">오늘 일정 {calendarEvents.events.length}</div>
           <button className="section-link" onClick={() => onNavigate('calendar')}>캘린더</button>
         </div>
 
         <div className="schedule-card">
           {/* all day */}
-          <div className="sched-allday">
-            <span className="sched-allday-label">종일</span>
-            <div className="sched-allday-body">
-              {calendarEvents.allDay.map((t, i) => (
-                <div className="sched-allday-title" key={i}>{t}</div>
-              ))}
-              <div className="sched-allday-sub">하루 종일 이벤트</div>
+          {calendarEvents.allDay.length > 0 && (
+            <div className="sched-allday">
+              <span className="sched-allday-label">종일</span>
+              <div className="sched-allday-body">
+                {calendarEvents.allDay.map((t, i) => (
+                  <div className="sched-allday-title" key={i}>{t}</div>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
 
           {/* events */}
-          {calendarEvents.events.map((ev, i) => (
-            <div
-              className={`sched-row ${ev.conflict ? 'sched-conflict' : ''}`}
-              key={i}
-              onClick={() => onNavigate('meeting-detail')}
-            >
-              <div className="sched-time">
-                <span className="sched-time-start">{ev.time}</span>
-                <span className="sched-time-end">{ev.endTime}</span>
-              </div>
-              <div className="sched-bar" />
-              <div className="sched-info">
-                <div className="sched-title">
-                  <strong>{ev.title}</strong>
-                  <span className="sched-dur">{ev.duration}</span>
+          {calendarEvents.events.length === 0 ? (
+            <div className="empty-state-inline" style={{ padding: '24px 16px' }}>예정된 일정이 없습니다.</div>
+          ) : (
+            calendarEvents.events.map((ev, i) => (
+              <div
+                className={`sched-row ${ev.conflict ? 'sched-conflict' : ''}`}
+                key={i}
+                onClick={() => onNavigate('meeting-detail')}
+              >
+                <div className="sched-time">
+                  <span className="sched-time-start">{ev.time}</span>
+                  <span className="sched-time-end">{ev.endTime}</span>
                 </div>
-                <div className="sched-sub">
-                  {ev.location && `${ev.location} · `}{ev.attendees}명
+                <div className="sched-bar" />
+                <div className="sched-info">
+                  <div className="sched-title">
+                    <strong>{ev.title}</strong>
+                    <span className="sched-dur">{ev.duration}</span>
+                  </div>
+                  <div className="sched-sub">
+                    {ev.location && `${ev.location} · `}{ev.attendees}명
+                  </div>
+                  {ev.conflict && <div className="sched-conflict-label">일정 충돌</div>}
                 </div>
-                {ev.conflict && <div className="sched-conflict-label">일정 충돌</div>}
+                {ev.avatar && <div className="sched-avatar" />}
               </div>
-              {ev.avatar && <div className="sched-avatar" />}
-            </div>
-          ))}
+            ))
+          )}
+        </div>
+
+        {/* schedule / todo tabs */}
+        <div className="focus-tab-bar">
+          <span
+            className={`focus-tab ${scheduleTab === 'schedule' ? 'active' : ''}`}
+            onClick={() => setScheduleTab('schedule')}
+          >일정</span>
+          <span className="focus-tab-dot">·</span>
+          <span
+            className={`focus-tab ${scheduleTab === 'todo' ? 'active' : ''}`}
+            onClick={() => setScheduleTab('todo')}
+          >할 일</span>
+        </div>
+      </div>
+
+      {/* chat input bar */}
+      <div className="chat-input-float">
+        <div className="chat-input-float-inner">
+          <input type="text" placeholder="어떤 도움이 필요하신가요?" readOnly onClick={() => onNavigate('chat')} />
+          <button className="chat-send-btn-float" onClick={() => onNavigate('chat')}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M22 2L11 13" />
+              <path d="M22 2L15 22L11 13L2 9L22 2Z" />
+            </svg>
+          </button>
         </div>
       </div>
     </div>

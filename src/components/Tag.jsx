@@ -2,7 +2,7 @@ const severityLabel = {
   urgent: '긴급',
   detected: '감지됨',
   caution: '주의',
-  normal: '보통',
+  normal: '발견',
   tracking: '추적 중',
 };
 

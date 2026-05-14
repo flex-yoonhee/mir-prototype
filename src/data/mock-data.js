@@ -34,6 +34,8 @@ export const topics = [
     stats: { detected: 2, tracking: 2, closed: 1 },
     daysAgo: 4,
     status: 'active',
+    conversations: 2,
+    hasRecentUpdate: true,
   },
   {
     id: 't2',
@@ -44,6 +46,8 @@ export const topics = [
     stats: { detected: 2, tracking: 2, closed: 1 },
     daysAgo: 2,
     status: 'active',
+    conversations: 1,
+    hasRecentUpdate: true,
   },
   {
     id: 't3',
@@ -53,6 +57,8 @@ export const topics = [
     stats: { detected: 2, tracking: 2, closed: 1 },
     daysAgo: 7,
     status: 'active',
+    conversations: 0,
+    hasRecentUpdate: false,
   },
   {
     id: 't4',
@@ -62,6 +68,39 @@ export const topics = [
     stats: { detected: 2, tracking: 2, closed: 1 },
     daysAgo: 12,
     status: 'active',
+    conversations: 0,
+    hasRecentUpdate: false,
+  },
+];
+
+export const homeTopics = [
+  {
+    id: 'ht1',
+    title: '핵심인력 리텐션',
+    lastUpdate: '최근: 개발팀 시니어 이탈 징후 감지',
+    stats: { detected: 2, tracking: 2, closed: 1 },
+    isNew: false,
+  },
+  {
+    id: 'ht2',
+    title: '동남아 법인 설립',
+    lastUpdate: '최근: 현지 법규 변경 — 고용계약 조항 확인 필요',
+    stats: { detected: 2, tracking: 2, closed: 1 },
+    isNew: true,
+  },
+  {
+    id: 'ht3',
+    title: 'Q2 예산 집행',
+    lastUpdate: '최근: 마케팅 예산 15% 초과 지출 감지',
+    stats: { detected: 2, tracking: 2, closed: 1 },
+    isNew: false,
+  },
+  {
+    id: 'ht4',
+    title: '예외 상황 감지',
+    lastUpdate: '최근: 마케팅팀 초과근무 3주 연속 증가',
+    stats: { detected: 2, tracking: 2, closed: 1 },
+    isNew: false,
   },
 ];
 
@@ -117,8 +156,12 @@ export const signals = [
       { name: 'Engineering', type: 'org' },
       { name: 'Backend Chapter', type: 'org' },
     ],
-    conversations: 2,
-    topicsGenerated: 2,
+    conversationCount: 2,
+    topicCreatedCount: 2,
+    conversations: [
+      { title: '김서준 후속 대응 방향을 제안해줘', date: '2026. 4. 27 (목) 12:55', hasUnread: true },
+      { title: '이하린 후속 대응 방향을 제안해줘', date: '2026. 4. 24 (월) 15:20', hasUnread: false },
+    ],
   },
   {
     id: 's2',
@@ -127,6 +170,20 @@ export const signals = [
     date: '2026. 4. 27 (목) 12:55',
     month: '2026년 4월',
     briefing: '최근 PM팀 평균 초과근무 주 12시간을 넘는 빈도가 올라갔습니다. 최근 팀 만족도 설문 응답에서 부정적 피드백을 남긴 구성원이 과반을 넘겨 이에대한 체크가 필요합니다.',
+    conversationCount: 1,
+    topicCreatedCount: 0,
+    actionItems: [
+      'PM팀 초과근무 현황 데이터 확인',
+      '팀 만족도 설문 상세 결과 리뷰',
+      'PM팀 리더와 1:1 면담 진행',
+    ],
+    relatedPeople: [
+      { name: '박지민', type: 'person', avatar: 'PJ' },
+      { name: 'PM Chapter', type: 'org' },
+    ],
+    conversations: [
+      { title: 'PM팀 번아웃 대응 방안을 제안해줘', date: '2026. 4. 27 (목) 14:30', hasUnread: false },
+    ],
   },
   {
     id: 's3',
@@ -135,6 +192,17 @@ export const signals = [
     date: '2026. 4. 27 (목) 12:55',
     month: '2026년 3월',
     briefing: '시장 대비 보상 수준 하위 20%. 연말 리뷰 전 선제 대응이 필요해 보입니다.',
+    conversationCount: 0,
+    topicCreatedCount: 0,
+    actionItems: [
+      '디자인 팀 보상 벤치마크 데이터 확인',
+      '연말 리뷰 전 보상 조정안 검토',
+    ],
+    relatedPeople: [
+      { name: '최유진', type: 'person', avatar: 'CY' },
+      { name: 'Design Chapter', type: 'org' },
+    ],
+    conversations: [],
   },
   {
     id: 's4',
@@ -143,6 +211,11 @@ export const signals = [
     date: '2026. 4. 27 (목) 12:55',
     month: '2026년 3월',
     briefing: '시장 대비 보상 수준 하위 20%. 연말 리뷰 전 선제 대응이 필요해 보입니다.',
+    conversationCount: 0,
+    topicCreatedCount: 0,
+    actionItems: [],
+    relatedPeople: [],
+    conversations: [],
   },
 ];
 
@@ -170,9 +243,9 @@ export const topicDetail = {
     { name: 'Backend Chapter', type: 'org' },
   ],
   timeline: [
-    { date: '2026. 5. 11 (월)', change: '보통 → 긴급', severity: 'urgent', content: '김서준은 3월 면담에서 역할 확장에 관심을 보였습니다. 이하린은 최근 외부 채용 플랫폼 프로필을 업데이트했습니다. 두 사람 모두 시장 대비 보상 하위 25%에 위치합니다.' },
-    { date: '2026. 5. 4 (월)', change: '주의 → 보통', severity: 'normal', content: '김서준은 3월 면담에서 역할 확장에 관심을 보였습니다. 이하린은 최근 외부 채용 플랫폼 프로필을 업데이트했습니다.' },
-    { date: '2026. 4. 27 (목)', change: '주의', severity: 'caution', content: '김서준은 3월 면담에서 역할 확장에 관심을 보였습니다. 이하린은 최근 외부 채용 플랫폼 프로필을 업데이트했습니다. 두 사람 모두 시장 대비 보상 하위 25%에 위치합니다.' },
+    { date: '2026. 5. 11 (월)', change: '보통 → 긴급', severity: 'urgent', severityFrom: 'normal', severityTo: 'urgent', content: '김서준은 3월 면담에서 역할 확장에 관심을 보였습니다. 이하린은 최근 외부 채용 플랫폼 프로필을 업데이트했습니다. 두 사람 모두 시장 대비 보상 하위 25%에 위치합니다.' },
+    { date: '2026. 5. 4 (월)', change: '주의 → 보통', severity: 'normal', severityFrom: 'caution', severityTo: 'normal', content: '김서준은 3월 면담에서 역할 확장에 관심을 보였습니다. 이하린은 최근 외부 채용 플랫폼 프로필을 업데이트했습니다.' },
+    { date: '2026. 4. 27 (목)', change: '주의', severity: 'caution', severityFrom: null, severityTo: 'caution', content: '김서준은 3월 면담에서 역할 확장에 관심을 보였습니다. 이하린은 최근 외부 채용 플랫폼 프로필을 업데이트했습니다. 두 사람 모두 시장 대비 보상 하위 25%에 위치합니다.' },
   ],
   conversations: [
     { title: '김서준 후속 대응 방향을 제안해줘', date: '2026. 4. 27 (목) 12:55', hasUnread: true },
@@ -198,7 +271,7 @@ export const calendarEvents = {
     { time: '15:00', endTime: '15:30', title: 'HR 분기 리뷰', duration: '30분', location: 'Pingpong', attendees: 7, conflict: true },
     { time: '16:00', endTime: '17:30', title: '김서준 시니어 면담', duration: '1시간 30분', location: 'CEO Room', attendees: 2 },
     { time: '17:30', endTime: '18:30', title: '전사 타운홀 준비', duration: '1시간', location: 'CEO Room', attendees: 8, avatar: true },
-    { time: '17:30', endTime: '18:30', title: 'CHRO 보상 조율 미팅', duration: '30분', location: 'CEO Room', attendees: 2, avatar: true },
+    { time: '17:30', endTime: '18:00', title: 'CHRO 보상 조율 미팅', duration: '30분', location: 'CEO Room', attendees: 2, avatar: true },
   ],
 };
 
@@ -231,11 +304,11 @@ export const meetingDetail = {
 };
 
 export const voiceRecords = [
-  { time: '09:00', title: '2026 1Q 이사회', type: 'meeting', subtitle: '본사 대회의실 · 안건 4건 · AI 요약 완료' },
-  { time: '09:55', title: '이사회 소감 정리', type: 'memo', subtitle: '동남아 법인 조직도 초안 · 텍스트 OCR 완료' },
-  { time: '11:15', title: '본사 → 강남 레스토랑 이동', type: 'memo', subtitle: '이동 18분 · 투자사 미팅 일정과 자동 매칭' },
-  { time: '14:00', title: '로드맵 리뷰 회의', type: 'meeting', subtitle: '3층 회의실 · 핵심 논의 5건 추출 · AI 요약 완료' },
-  { time: '15:20', title: 'CHRO 통화 녹취 12분', type: 'memo', subtitle: '김서준 면담 사전 조율 내용 · AI 요약 완료' },
+  { time: '09:00', title: '2026 1Q 이사회', type: 'meeting', timeRange: '09:00 - 10:00', summary: '동남아 법인 설립 안건 논의. CFO 비용 분석 발표, CHRO 인력 수급 계획 공유. 6월 이사회 전까지 최종 결정 필요.', subtitle: '본사 대회의실 · 안건 4건 · AI 요약 완료' },
+  { time: '09:55', title: '이사회 소감 정리', type: 'memo', timeRange: '09:55 - 10:05', summary: '동남아 법인 조직도 초안 메모. 베트남 vs 싱가포르 법적 안정성 비교 필요.', subtitle: '동남아 법인 조직도 초안 · 텍스트 OCR 완료' },
+  { time: '11:15', title: '본사 → 강남 레스토랑 이동', type: 'memo', timeRange: '11:15 - 11:33', summary: '이동 중 투자사 미팅 관련 메모. 시리즈 B 진행 상황 및 질문 사항 정리.', subtitle: '이동 18분 · 투자사 미팅 일정과 자동 매칭' },
+  { time: '14:00', title: '로드맵 리뷰 회의', type: 'meeting', timeRange: '14:00 - 15:00', summary: 'Q2 제품 로드맵 리뷰. 핵심 기능 5건 우선순위 재조정. 디자인팀 리소스 부족 이슈 논의.', subtitle: '3층 회의실 · 핵심 논의 5건 추출 · AI 요약 완료' },
+  { time: '15:20', title: 'CHRO 통화 녹취 12분', type: 'memo', timeRange: '15:20 - 15:32', summary: '김서준 면담 사전 조율. 보상 조정 범위와 역할 전환 가능성에 대해 CHRO와 합의.', subtitle: '김서준 면담 사전 조율 내용 · AI 요약 완료' },
 ];
 
 export const mirrorData = {

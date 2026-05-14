@@ -26,7 +26,7 @@ export default function TopicsScreen({ onNavigate, onBack }) {
 
       {hasUpdates > 0 && (
         <div style={{ padding: '0 16px 8px' }}>
-          <Tag severity="tracking">업데이트 {hasUpdates}</Tag>
+          <span className="update-badge">업데이트 {hasUpdates}</span>
         </div>
       )}
 
@@ -50,6 +50,7 @@ export default function TopicsScreen({ onNavigate, onBack }) {
                 <span style={{ fontSize: 12, color: 'var(--text-secondary)' }}>{topic.daysAgo}일 경과</span>
               </div>
               <div className="signal-card-title">
+                {topic.hasRecentUpdate && <span className="topic-unread-dot" />}
                 {topic.title}
                 {topic.isNew && <span className="new-badge">NEW</span>}
               </div>
