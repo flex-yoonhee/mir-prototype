@@ -60,7 +60,7 @@ export default function TopicsScreen({ onNavigate, onBack }) {
                   <Tag severity="tracking">대화 {topic.conversations}건</Tag>
                 </div>
               )}
-              <button className="signal-card-action">종료</button>
+              <button className="signal-card-action">추적 종료</button>
             </div>
           ))
         )}
