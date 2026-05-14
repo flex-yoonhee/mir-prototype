@@ -57,25 +57,21 @@ export default function ChatScreen({ onNavigate, onBack }) {
       </div>
 
       <div className="chat-input-area">
-        <div className="chat-input-box" onClick={() => { setFocused(true); inputRef.current?.focus(); }}>
-          <div className="chat-input-top">
-            <input
-              ref={inputRef}
-              placeholder="어떤 도움이 필요하신가요?"
-              onFocus={() => setFocused(true)}
-              onBlur={() => setFocused(false)}
-            />
-            <button className="chat-send-btn">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
-            </button>
-          </div>
-          <div className="chat-input-bottom">
-            <div className="chat-topic-selector">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
-              토픽
-              <span>∨</span>
-            </div>
-          </div>
+        <div className="chat-topic-selector">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+          토픽
+          <span>∨</span>
+        </div>
+        <div className="chat-input-row" onClick={() => { setFocused(true); inputRef.current?.focus(); }}>
+          <input
+            ref={inputRef}
+            placeholder="어떤 도움이 필요하신가요?"
+            onFocus={() => setFocused(true)}
+            onBlur={() => setFocused(false)}
+          />
+          <button className="chat-send-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+          </button>
         </div>
       </div>
 
