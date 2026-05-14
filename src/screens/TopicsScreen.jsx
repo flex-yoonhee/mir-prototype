@@ -6,7 +6,6 @@ import { topics } from '../data/mock-data';
 
 export default function TopicsScreen({ onNavigate, onBack }) {
   const [showAdd, setShowAdd] = useState(false);
-  const [selectedSeverity, setSelectedSeverity] = useState('urgent');
 
   const activeTopics = topics.filter(t => t.status === 'active');
   const hasUpdates = activeTopics.filter(t => t.daysAgo <= 3).length;
@@ -76,20 +75,13 @@ export default function TopicsScreen({ onNavigate, onBack }) {
           토픽 추가
           <button className="bottom-sheet-close" onClick={() => setShowAdd(false)}>✕</button>
         </h3>
-        <div className="severity-selector">
-          {['urgent', 'caution', 'normal'].map(s => (
-            <button
-              key={s}
-              className={`severity-option ${s} ${selectedSeverity === s ? 'selected' : ''}`}
-              onClick={() => setSelectedSeverity(s)}
-            >
-              <Tag severity={s} />
-            </button>
-          ))}
-        </div>
+        <input
+          className="sheet-input"
+          placeholder="토픽 제목"
+        />
         <textarea
           className="sheet-textarea"
-          placeholder="현 시점에서 조직의 가장 큰 문제 10가지를 뽑아줘. 내용을 구성할 때 비슷한 주제끼리는 그룹핑해서 정리해주면 좋을 것 같아."
+          placeholder="어떤 주제를 추적하고 싶은지 설명해주세요."
           rows={4}
         />
         <button className="sheet-submit">추가하기</button>

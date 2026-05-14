@@ -1577,6 +1577,22 @@
 .severity-option.selected.caution { background: var(--tag-caution-bg); color: var(--tag-caution-text); }
 .severity-option.selected.normal { background: var(--tag-normal-bg); color: var(--tag-normal-text); }
 
+.sheet-input {
+  width: 100%;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 14px var(--spacing-md);
+  color: var(--text-primary);
+  font-size: 15px;
+  font-family: var(--font-family);
+  outline: none;
+  margin-bottom: 12px;
+}
+.sheet-input::placeholder {
+  color: var(--text-tertiary);
+}
+
 .sheet-textarea {
   width: 100%;
   min-height: 100px;
