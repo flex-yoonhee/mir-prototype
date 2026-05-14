@@ -549,6 +549,15 @@
   cursor: pointer;
   font-size: 18px;
 }
+.topic-header-action {
+  width: 36px;
+  height: 36px;
+  color: var(--text-secondary);
+  transition: color 0.15s;
+}
+.topic-header-action:hover {
+  color: var(--text-primary);
+}
 
 /* home header (legacy, kept for compat) */
 .home-header {

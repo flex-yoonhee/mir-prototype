@@ -18,8 +18,12 @@ export default function TopicsScreen({ onNavigate, onBack }) {
         onBack={onBack}
         rightActions={
           <>
-            <button className="screen-header-btn" onClick={() => onNavigate('topic-archive')}>⊟</button>
-            <button className="screen-header-btn" onClick={() => setShowAdd(true)}>+</button>
+            <button className="screen-header-btn topic-header-action" onClick={() => onNavigate('topic-archive')}>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M21 8v13H3V8"/><path d="M1 3h22v5H1z"/><path d="M10 12h4"/></svg>
+            </button>
+            <button className="screen-header-btn topic-header-action" onClick={() => setShowAdd(true)}>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M12 5v14M5 12h14"/></svg>
+            </button>
           </>
         }
       />
