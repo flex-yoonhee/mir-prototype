@@ -382,7 +382,7 @@ export const specs = {
         dataSource: '인텔리전스 지표 스토어 + gcal + 서드파티',
         refreshCycle: '매일 오전 배치 생성. 시그널 발생 시 업데이트',
         decisions: [
-          '시그널 노출: visible=true인 시그널만, RISK→WARNING→DISCOVERY 순 정렬',
+          '시그널 노출: visible=true인 시그널만, 긴급→주의→발견 순 정렬',
           'LLM이 요약 본문 생성, 타이틀/본문 글자수 제한만 적용',
         ],
         open: [],
@@ -392,12 +392,11 @@ export const specs = {
         dataSource: 'CEO가 추적 중인 토픽 목록 + 각 토픽의 최신 업데이트 요약',
         refreshCycle: '매일 배치 + 실시간(시그널 전환/대화 등록 시 즉시)',
         decisions: [
-          '2열 그리드: category별 그룹핑 (RISK/WARNING)',
+          '2열 그리드: category별 그룹핑 (긴급/주의)',
           'last_topic_updated_at 기준 정렬',
+          '토픽 상한: 활성 20개 / 보관 포함 100개 (5/14 확정)',
         ],
-        open: [
-          '토픽 max 개수 미정',
-        ],
+        open: [],
       },
       {
         element: '오늘 일정',
@@ -419,9 +418,9 @@ export const specs = {
         dataSource: '인텔리전스 지표 스토어 322개 지표 기반 LLM 분석',
         refreshCycle: '하루 1회 배치 (지표 스토어 갱신 주기)',
         decisions: [
-          '카테고리 3단계: RISK(push알림+홈최상단) / WARNING(앱배지+홈) / DISCOVERY(홈만)',
+          '카테고리 3단계: 긴급(push알림+홈최상단) / 주의(앱배지+홈) / 발견(홈만)',
           'reflex 첫 출시 제외 (7월 이후)',
-          '시그널 재료에서 STT 제외',
+          '시그널 재료: 인텔리전스 지표 + 서드파티 + 크로스도메인 + 녹음 인사이트(STT) + 토픽 업데이트',
           '반증 UI 분리 제거 — LLM 본문에 자연스럽게 포함',
         ],
         open: [],
@@ -430,7 +429,8 @@ export const specs = {
         element: '시그널 상세',
         dataSource: '인텔리전스 + matrix drill-down',
         decisions: [
-          'AI 브리핑(summary) + 포착 징후(evidence) + 꼬리 질문(follow_up_questions) + 추천 액션(recommended_actions) + 관련 인물/조직',
+          'AI 브리핑(summary) + 포착 징후(evidence) + 꼬리 질문(follow_up_questions) + 추천 액션(recommended_actions)',
+          '관련 인물/조직: DB 분리 저장(related_user_ids, related_department_ids), API 분리 전달. UI에서 통합 노출 (5/14 확정)',
           '액션 직접 tool call 제외 — 채팅으로 이동 후 function call',
           'MVP UI: LLM 출력 형식 위임 (게시판 형태)',
         ],
@@ -450,7 +450,7 @@ export const specs = {
         element: '데이터 스펙 — ceo_signal',
         dataSource: 'DB 테이블',
         decisions: [
-          '필드: id, customer_id, user_id, scenario_id, category(RISK/WARNING/DISCOVERY), visible, title, summary, evidence, follow_up_questions(JSON), recommended_actions(JSON), related_user_ids(JSON), related_department_ids(JSON), fetched_data_detail(JSON)',
+          '필드: id, customer_id, user_id, scenario_id, category(긴급/주의/발견), visible, title, summary, evidence, follow_up_questions(JSON), recommended_actions(JSON), related_user_ids(JSON), related_department_ids(JSON), fetched_data_detail(JSON)',
           'visible 결정: 동일 시나리오의 최근 N일 시그널과 LLM 의미적 중복 판정 → 중복이면 visible=false',
           'visible=false 시그널은 모든 노출/알림에서 제외',
           'related_user_ids, related_department_ids, fetched_data_detail은 LLM이 아닌 에이전트 아티팩트에서 코드로 추출',
@@ -458,9 +458,12 @@ export const specs = {
         open: [],
       },
       {
-        element: '시그널 생성 배치 흐름',
+        element: '시그널 생성 흐름',
         decisions: [
-          '1. 매일 cron → 활성 시나리오 조회',
+          '생성 방식: 배치(cron) + 사용자 요청(on-demand) 병행 (5/14 확정)',
+          '시그널 중복 탐지: 최근 7일 내 동일/유사 시그널 존재 시 미딜리버리 (5/14 확정)',
+          '출처 규칙: 서드파티=서비스별 아이콘+랜딩 / flex 단일제품=제품 아이콘+랜딩 / flex 분석데이터=공통 아이콘+랜딩 없음 (5/14 확정)',
+          '1. 매일 cron 또는 사용자 요청 → 활성 시나리오 조회',
           '2. 각 시나리오 question_text를 IntelligenceAgent에 전송',
           '3. 응답 JSON 파싱 (항목별 시그널 후보)',
           '4. LLM 의미적 중복 판정 → visible 결정',
@@ -482,10 +485,9 @@ export const specs = {
           '상세 = 주제에 대한 최신 응답 시간순 + 심각도 변화 타임라인',
           '양방향/연결 토픽 자동추천은 출시 이후',
           '토픽 지표 고정 매핑 출시 제외',
+          '토픽 상한: 활성 20개 / 보관 포함 100개 (5/14 확정)',
         ],
-        open: [
-          '토픽 max 개수 미정',
-        ],
+        open: [],
       },
       {
         element: '토픽 보관함',
@@ -509,7 +511,7 @@ export const specs = {
         element: '데이터 스펙 — ceo_topic_update',
         dataSource: 'DB 테이블',
         decisions: [
-          '필드: id, topic_id, category(RISK/WARNING/DISCOVERY), visible, source_type, source_id, summary, evidence, follow_up_questions, recommended_actions, related_user_ids, related_department_ids, fetched_data_detail',
+          '필드: id, topic_id, category(긴급/주의/발견), visible, source_type, source_id, summary, evidence, follow_up_questions, recommended_actions, related_user_ids, related_department_ids, fetched_data_detail',
           'source_type 4가지: SIGNAL(시그널 전환) / CHAT(대화 중 등록) / BATCH(이후 갱신 배치) / MANUAL(CEO 직접, 향후)',
           'visible 결정: 직전 update와 LLM 의미적 중복 판정',
         ],
@@ -541,12 +543,12 @@ export const specs = {
     sections: [
       {
         element: '캘린더 뷰',
-        dataSource: 'gcal OAuth2',
-        refreshCycle: 'gcal 동기화',
+        dataSource: 'gcal OAuth2 + flex 캘린더',
+        refreshCycle: 'gcal 웹훅 기반 일정 변경 감지',
         decisions: [
           '주간 스트립(compact) + 월간(expanded) 전환',
           '일정 충돌 표시',
-          '첫 출시 서드파티: gcal',
+          '구글캘린더와 flex 캘린더를 별개 타입으로 클라이언트에 전달. 클라이언트에서 각 타입에 맞게 대응 (5/14 확정)',
         ],
         open: [
           'gcal 연동 방식 — AI팀 구캘 매트릭스 적재 활용 vs 별도 구현',
@@ -572,7 +574,7 @@ export const specs = {
         element: 'flex AI 채팅',
         dataSource: 'LLM + 전체 데이터 소스',
         decisions: [
-          '진입점별 대화 맥락 분리 없음 — 어떤 진입점에서든 자유 대화 (5/8 확정)',
+          '진입점의 맥락은 대화에 반영됨 (토픽→해당 토픽, 피드백→해당 피드백). 다만 진입점에 따라 동작이 달라지거나 제한되지 않음 — 자유롭게 다른 주제 전환 가능 (5/8, 5/14 보정)',
           '토픽 드롭다운으로 맥락 힌트 제공 가능',
           '리더십 피드백: 채팅 탭에 통합 (4/23 확정)',
           '사용자 메모리 첫 출시 제외',
@@ -643,8 +645,9 @@ export const specs = {
         element: '내 정보 / 연동',
         dataSource: '-',
         decisions: [
-          '첫 출시 서드파티: gcal, slack, gmail, notion',
+          '첫 출시 서드파티: gcal, slack, gmail, notion. 개발 우선순위: 슬랙, 지메일 먼저 → 그다음 노션 (5/14 확정)',
           '이후: gdrive, ms teams, ms office',
+          '노션 연동: search API(커넥터) 방식 채택. MCP는 token 유효기간 이슈로 제외 (5/14 확정)',
         ],
         open: [
           'slack 연동 상세 (어떤 데이터, 어떤 주기) 미정',
