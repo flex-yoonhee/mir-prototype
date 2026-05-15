@@ -473,7 +473,7 @@ export const specs = {
       },
       {
         element: '오늘 일정',
-        dataSource: 'gcal 프라이빗 커넥터 (CEO 개인 OAuth)',
+        dataSource: 'gcal 매트릭스 쉐어 커넥터',
         refreshCycle: '동기화 방식 미정',
         decisions: [
           '종일 이벤트 + 시간별 리스트',
@@ -616,7 +616,7 @@ export const specs = {
     sections: [
       {
         element: '캘린더 뷰',
-        dataSource: 'gcal 프라이빗 커넥터 (CEO 개인 OAuth) + flex 캘린더',
+        dataSource: 'gcal 매트릭스 쉐어 커넥터 + flex 캘린더',
         refreshCycle: '동기화 방식 미정',
         decisions: [
           '주간 스트립(compact) + 월간(expanded) 전환',
@@ -701,6 +701,7 @@ export const specs = {
         element: '이메일 AI 브리핑 + 답장 초안',
         dataSource: 'gmail OAuth2 (restricted scope)',
         decisions: [
+          'gmail: 프라이빗 커넥터 (CEO 개인 연동)',
           'gmail 접근: workspace 허용 목록(4-5) 방식으로 7월 출시, CASA 병렬',
           '테스트 workspace: integration-test.grapeisfruit.com',
         ],
