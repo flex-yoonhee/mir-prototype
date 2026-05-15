@@ -1,25 +1,5 @@
-import { useState, useEffect, useRef } from 'react';
-import mermaid from 'mermaid';
+import { useState } from 'react';
 import { specs } from '../data/mock-data';
-
-mermaid.initialize({ startOnLoad: false, theme: 'default' });
-
-const iaDiagram = `graph TB
-    A[flex CEO]
-    A --> B[시그널]
-    A --> D[캘린더]
-    A --> F[음성 기록]
-    A --> G[리더십 피드백]
-    A --> C[토픽]
-    A --> E[채팅]
-
-    B -->|토픽 생성| C
-    C --> C1[토픽 보관함]
-    C --> C2[토픽 등록]
-
-    B -->|이 주제로 대화| E
-    C -->|이 주제로 대화| E
-    G -->|이 피드백으로 대화| E`;
 
 const strategySpecs = [
   specs.valueProposition,
@@ -81,26 +61,72 @@ function SpecSections({ sections }) {
 }
 
 function IATab() {
-  const ref = useRef(null);
-
-  useEffect(() => {
-    const render = async () => {
-      if (!ref.current) return;
-      const id = 'ia-mermaid-' + Date.now();
-      try {
-        const { svg } = await mermaid.render(id, iaDiagram);
-        ref.current.innerHTML = svg;
-      } catch (e) {
-        ref.current.innerHTML = '<p style="color:red">다이어그램 렌더링 실패</p>';
-      }
-    };
-    render();
-  }, []);
-
   return (
     <>
       <h2>정보 구조 (IA)</h2>
-      <div ref={ref} style={{ marginTop: 16 }} />
+      <div className="ia">
+        {/* row 0: root */}
+        <div className="ia-row">
+          <div className="ia-box root">flex CEO</div>
+        </div>
+        <div className="ia-lines-down ia-lines-4" />
+
+        {/* row 1: level 1 */}
+        <div className="ia-row">
+          <div className="ia-box">시그널</div>
+          <div className="ia-box">캘린더</div>
+          <div className="ia-box">음성 기록</div>
+          <div className="ia-box">리더십 피드백</div>
+        </div>
+
+        {/* flow labels */}
+        <div className="ia-flow-row">
+          <div className="ia-flow-label left">
+            <div className="ia-flow-line" />
+            <span>토픽 생성</span>
+          </div>
+          <div className="ia-flow-label right">
+            <span>이 피드백으로 대화</span>
+            <div className="ia-flow-line" />
+          </div>
+        </div>
+
+        {/* row 2: topic */}
+        <div className="ia-row">
+          <div className="ia-box accent">토픽</div>
+        </div>
+        <div className="ia-lines-down ia-lines-2" />
+
+        {/* row 3: topic children */}
+        <div className="ia-row">
+          <div className="ia-box sub">토픽 보관함</div>
+          <div className="ia-box sub">토픽 등록</div>
+        </div>
+
+        {/* flow to chat */}
+        <div className="ia-flow-row">
+          <div className="ia-flow-label center">
+            <div className="ia-flow-line" />
+            <span>이 주제로 대화</span>
+            <div className="ia-flow-line" />
+          </div>
+        </div>
+
+        {/* row 4: chat */}
+        <div className="ia-row">
+          <div className="ia-box accent">채팅</div>
+        </div>
+      </div>
+
+      <div className="spec-section" style={{ marginTop: 24 }}>
+        <h3>주요 전환 동선</h3>
+        <ul className="spec-list decisions">
+          <li>시그널 → 토픽 생성 → 토픽</li>
+          <li>시그널 → 이 주제로 대화 → 채팅</li>
+          <li>토픽 → 이 주제로 대화 → 채팅</li>
+          <li>리더십 피드백 → 이 피드백으로 대화 → 채팅</li>
+        </ul>
+      </div>
     </>
   );
 }
