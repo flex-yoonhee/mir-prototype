@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import mermaid from 'mermaid';
 import { specs } from '../data/mock-data';
 
-mermaid.initialize({ startOnLoad: false, theme: 'default' });
+mermaid.initialize({ startOnLoad: false, theme: 'default', flowchart: { defaultRenderer: 'elk' } });
 
 const strategySpecs = [
   specs.valueProposition,
