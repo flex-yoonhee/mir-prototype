@@ -2508,6 +2508,70 @@
   font-size: 12px;
 }
 
+/* IA diagram */
+.ia-diagram {
+  margin-top: 16px;
+}
+
+.ia-root {
+  background: #1a1a2e;
+  color: #fff;
+  font-weight: 700;
+  font-size: 15px;
+  padding: 10px 16px;
+  border-radius: 8px;
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.ia-level1 {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ia-node-group {
+  background: var(--bg-light, #f8f8fa);
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 12px 14px;
+}
+
+.ia-node {
+  font-weight: 600;
+  font-size: 14px;
+  color: #1a1a2e;
+}
+
+.ia-children {
+  display: flex;
+  gap: 6px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+
+.ia-child {
+  background: #e8e8ec;
+  color: #444;
+  font-size: 12px;
+  padding: 4px 10px;
+  border-radius: 4px;
+}
+
+.ia-flows {
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.ia-flow {
+  font-size: 12px;
+  color: #7C7C8A;
+  padding-left: 8px;
+  border-left: 2px solid #9EA0B8;
+}
+
 /* voice detail */
 .voice-detail-meta {
   display: flex;

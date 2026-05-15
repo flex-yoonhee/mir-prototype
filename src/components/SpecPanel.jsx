@@ -73,6 +73,12 @@ export default function SpecPanel({ screenSpec }) {
           화면 스펙
         </button>
         <button
+          className={`spec-tab ${tab === 'ia' ? 'active' : ''}`}
+          onClick={() => setTab('ia')}
+        >
+          IA
+        </button>
+        <button
           className={`spec-tab ${tab === 'strategy' ? 'active' : ''}`}
           onClick={() => setTab('strategy')}
         >
@@ -94,6 +100,52 @@ export default function SpecPanel({ screenSpec }) {
             </p>
           </>
         )
+      )}
+
+      {tab === 'ia' && (
+        <>
+          <h2>정보 구조 (IA)</h2>
+          <div className="ia-diagram">
+            <div className="ia-root">flex CEO</div>
+            <div className="ia-level1">
+              {[
+                { name: '시그널', children: [], flows: ['토픽 생성 → 토픽', '이 주제로 대화 → 채팅'] },
+                { name: '토픽', children: ['토픽 보관함', '토픽 등록'], flows: ['이 주제로 대화 → 채팅'] },
+                { name: '캘린더', children: [], flows: [] },
+                { name: '채팅', children: [], flows: [] },
+                { name: '음성 기록', children: [], flows: [] },
+                { name: '리더십 피드백', children: [], flows: ['이 피드백으로 대화 → 채팅'] },
+              ].map((item, i) => (
+                <div className="ia-node-group" key={i}>
+                  <div className="ia-node">{item.name}</div>
+                  {item.children.length > 0 && (
+                    <div className="ia-children">
+                      {item.children.map((c, j) => (
+                        <div className="ia-child" key={j}>{c}</div>
+                      ))}
+                    </div>
+                  )}
+                  {item.flows.length > 0 && (
+                    <div className="ia-flows">
+                      {item.flows.map((f, j) => (
+                        <div className="ia-flow" key={j}>{f}</div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="spec-section" style={{ marginTop: 24 }}>
+            <h3>주요 전환 동선</h3>
+            <ul className="spec-list decisions">
+              <li>시그널 → 토픽 생성</li>
+              <li>시그널 → 이 주제로 대화 → 채팅</li>
+              <li>토픽 → 이 주제로 대화 → 채팅</li>
+              <li>리더십 피드백 → 이 피드백으로 대화 → 채팅</li>
+            </ul>
+          </div>
+        </>
       )}
 
       {tab === 'strategy' && (
