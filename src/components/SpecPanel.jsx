@@ -7,16 +7,16 @@ mermaid.initialize({ startOnLoad: false, theme: 'default' });
 const iaDiagram = `graph TB
     A[flex CEO]
     A --> B[시그널]
-    A --> C[토픽]
     A --> D[캘린더]
-    A --> E[채팅]
     A --> F[음성 기록]
     A --> G[리더십 피드백]
+    A --> C[토픽]
+    A --> E[채팅]
 
+    B -->|토픽 생성| C
     C --> C1[토픽 보관함]
     C --> C2[토픽 등록]
 
-    B -->|토픽 생성| C
     B -->|이 주제로 대화| E
     C -->|이 주제로 대화| E
     G -->|이 피드백으로 대화| E`;
