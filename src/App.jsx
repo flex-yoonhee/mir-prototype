@@ -11,6 +11,7 @@ import CalendarScreen from './screens/CalendarScreen';
 import MeetingDetailScreen from './screens/MeetingDetailScreen';
 import ChatScreen from './screens/ChatScreen';
 import VoiceScreen from './screens/VoiceScreen';
+import VoiceDetailScreen from './screens/VoiceDetailScreen';
 import MirrorScreen from './screens/MirrorScreen';
 import EmailDetailScreen from './screens/EmailDetailScreen';
 import TownhallScreen from './screens/TownhallScreen';
@@ -28,6 +29,7 @@ const screenSpecMap = {
   'meeting-detail': specs.calendar,
   chat: specs.chat,
   voice: specs.voice,
+  'voice-detail': specs.voice,
   mirror: specs.mirror,
   'email-detail': specs.email,
   townhall: specs.email,
@@ -66,6 +68,7 @@ export default function App() {
       case 'meeting-detail': return <MeetingDetailScreen {...props} />;
       case 'chat': return <ChatScreen {...props} />;
       case 'voice': return <VoiceScreen {...props} />;
+      case 'voice-detail': return <VoiceDetailScreen {...props} />;
       case 'mirror': return <MirrorScreen {...props} />;
       case 'email-detail': return <EmailDetailScreen {...props} />;
       case 'townhall': return <TownhallScreen {...props} />;
@@ -87,7 +90,7 @@ export default function App() {
             </div>
           </div>
           {renderScreen()}
-          {current.screen !== 'chat' && current.screen !== 'voice' && (
+          {current.screen !== 'chat' && current.screen !== 'voice' && current.screen !== 'voice-detail' && (
             <RecordingBar onNavigate={navigate} />
           )}
         </div>

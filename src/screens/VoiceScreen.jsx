@@ -1,7 +1,7 @@
 import ScreenHeader from '../components/ScreenHeader';
 import { voiceRecords } from '../data/mock-data';
 
-export default function VoiceScreen({ onBack }) {
+export default function VoiceScreen({ onNavigate, onBack }) {
   return (
     <div className="screen">
       <ScreenHeader title="음성 기록" onBack={onBack} />
@@ -16,7 +16,7 @@ export default function VoiceScreen({ onBack }) {
         </div>
 
         {voiceRecords.map((record, i) => (
-          <div className="voice-item" key={i}>
+          <div className="voice-item" key={i} onClick={() => onNavigate('voice-detail')} style={{ cursor: 'pointer' }}>
             <div className="voice-content">
               <div className="voice-title">{record.title}</div>
               {record.summary && (
