@@ -718,7 +718,9 @@ export const specs = {
         element: '내 정보 / 연동',
         dataSource: '-',
         decisions: [
-          '첫 출시 서드파티: gcal, slack, gmail, notion. 개발 우선순위: 슬랙, 지메일 먼저 → 그다음 노션 (5/14 확정)',
+          'gcal: 쉐어드 커넥터 — 매트릭스 적재 데이터 조회',
+          'slack, gmail, notion: 프라이빗 커넥터 — 외부 서비스 직접 조회',
+          '개발 우선순위: 슬랙, 지메일 먼저 → 그다음 노션 (5/14 확정)',
           '이후: gdrive, ms teams, ms office',
           '노션 연동: search API(커넥터) 방식 채택. MCP는 token 유효기간 이슈로 제외 (5/14 확정)',
         ],
