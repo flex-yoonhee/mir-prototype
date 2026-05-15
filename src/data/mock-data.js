@@ -473,8 +473,8 @@ export const specs = {
       },
       {
         element: '오늘 일정',
-        dataSource: 'gcal OAuth2',
-        refreshCycle: 'gcal 동기화 주기',
+        dataSource: 'gcal 프라이빗 커넥터 (CEO 개인 OAuth)',
+        refreshCycle: '동기화 방식 미정',
         decisions: [
           '종일 이벤트 + 시간별 리스트',
           '일정 충돌 표시',
@@ -616,8 +616,8 @@ export const specs = {
     sections: [
       {
         element: '캘린더 뷰',
-        dataSource: 'gcal OAuth2 + flex 캘린더',
-        refreshCycle: 'gcal 웹훅 기반 일정 변경 감지',
+        dataSource: 'gcal 프라이빗 커넥터 (CEO 개인 OAuth) + flex 캘린더',
+        refreshCycle: '동기화 방식 미정',
         decisions: [
           '주간 스트립(compact) + 월간(expanded) 전환',
           '일정 충돌 표시',
