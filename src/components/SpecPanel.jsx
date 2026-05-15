@@ -61,72 +61,100 @@ function SpecSections({ sections }) {
 }
 
 function IATab() {
+  const w = 540, bw = 100, bh = 34;
+  const cx = w / 2;
+  // y positions
+  const y0 = 30;  // root
+  const y1 = 110; // level 1
+  const y2 = 240; // topic
+  const y3 = 320; // topic children
+  const y4 = 420; // chat
+  // x positions for level 1: 4 boxes evenly
+  const l1x = [60, 180, 300, 420];
+  // topic children x
+  const tcx = [cx - 70, cx + 70];
+
+  const box = (x, y, text, style) => (
+    <g key={text}>
+      <rect x={x - bw/2} y={y - bh/2} width={bw} height={bh} rx={5}
+        fill={style === 'root' ? '#1a1a2e' : style === 'accent' ? '#e4e4ec' : '#f0f0f2'}
+        stroke={style === 'root' ? '#1a1a2e' : style === 'accent' ? '#9EA0B8' : '#ccc'}
+        strokeWidth={1} />
+      <text x={x} y={y + 1} textAnchor="middle" dominantBaseline="middle"
+        fill={style === 'root' ? '#fff' : '#1a1a2e'}
+        fontSize={12} fontWeight={600}>{text}</text>
+    </g>
+  );
+
+  const arrow = (x1, y1a, x2, y2a) => (
+    <line x1={x1} y1={y1a} x2={x2} y2={y2a} stroke="#aaa" strokeWidth={1} markerEnd="url(#ah)" />
+  );
+
+  const label = (x, y, text) => (
+    <text x={x} y={y} textAnchor="middle" fontSize={10} fill="#888">{text}</text>
+  );
+
   return (
     <>
       <h2>정보 구조 (IA)</h2>
-      <div className="ia">
-        {/* row 0: root */}
-        <div className="ia-row">
-          <div className="ia-box root">flex CEO</div>
-        </div>
-        <div className="ia-lines-down ia-lines-4" />
+      <svg viewBox={`0 0 ${w} ${y4 + 30}`} style={{ width: '100%', marginTop: 16 }}>
+        <defs>
+          <marker id="ah" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+            <path d="M0,0 L6,3 L0,6" fill="none" stroke="#aaa" strokeWidth={1} />
+          </marker>
+          <marker id="ah-blue" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+            <path d="M0,0 L6,3 L0,6" fill="none" stroke="#9EA0B8" strokeWidth={1} />
+          </marker>
+        </defs>
 
-        {/* row 1: level 1 */}
-        <div className="ia-row">
-          <div className="ia-box">시그널</div>
-          <div className="ia-box">캘린더</div>
-          <div className="ia-box">음성 기록</div>
-          <div className="ia-box">리더십 피드백</div>
-        </div>
+        {/* root → level 1 lines */}
+        {l1x.map(x => arrow(cx, y0 + bh/2, x, y1 - bh/2))}
 
-        {/* flow labels */}
-        <div className="ia-flow-row">
-          <div className="ia-flow-label left">
-            <div className="ia-flow-line" />
-            <span>토픽 생성</span>
-          </div>
-          <div className="ia-flow-label right">
-            <span>이 피드백으로 대화</span>
-            <div className="ia-flow-line" />
-          </div>
-        </div>
+        {/* root → topic */}
+        {arrow(cx, y0 + bh/2, cx, y2 - bh/2)}
 
-        {/* row 2: topic */}
-        <div className="ia-row">
-          <div className="ia-box accent">토픽</div>
-        </div>
-        <div className="ia-lines-down ia-lines-2" />
+        {/* root → chat (far right, goes around) */}
+        <path d={`M${cx + bw/2 + 5},${y0} L${w - 15},${y0} L${w - 15},${y4} L${cx + bw/2},${y4}`}
+          fill="none" stroke="#aaa" strokeWidth={1} markerEnd="url(#ah)" />
 
-        {/* row 3: topic children */}
-        <div className="ia-row">
-          <div className="ia-box sub">토픽 보관함</div>
-          <div className="ia-box sub">토픽 등록</div>
-        </div>
+        {/* topic → children */}
+        {tcx.map(x => arrow(cx, y2 + bh/2, x, y3 - bh/2))}
 
-        {/* flow to chat */}
-        <div className="ia-flow-row">
-          <div className="ia-flow-label center">
-            <div className="ia-flow-line" />
-            <span>이 주제로 대화</span>
-            <div className="ia-flow-line" />
-          </div>
-        </div>
+        {/* 시그널 → 토픽 (토픽 생성) */}
+        <path d={`M${l1x[0]},${y1 + bh/2} L${l1x[0]},${y2} L${cx - bw/2},${y2}`}
+          fill="none" stroke="#9EA0B8" strokeWidth={1.5} markerEnd="url(#ah-blue)" />
+        {label(l1x[0] - 5, y2 - 10, '토픽 생성')}
 
-        {/* row 4: chat */}
-        <div className="ia-row">
-          <div className="ia-box accent">채팅</div>
-        </div>
-      </div>
+        {/* 시그널 → 채팅 (이 주제로 대화) */}
+        <path d={`M${l1x[0] - bw/2 - 5},${y1} L${15},${y1} L${15},${y4} L${cx - bw/2},${y4}`}
+          fill="none" stroke="#9EA0B8" strokeWidth={1.5} markerEnd="url(#ah-blue)" />
+        {label(15, y1 + (y4 - y1) / 2, '이 주제로')}
+        {label(15, y1 + (y4 - y1) / 2 + 14, '대화')}
 
-      <div className="spec-section" style={{ marginTop: 24 }}>
-        <h3>주요 전환 동선</h3>
-        <ul className="spec-list decisions">
-          <li>시그널 → 토픽 생성 → 토픽</li>
-          <li>시그널 → 이 주제로 대화 → 채팅</li>
-          <li>토픽 → 이 주제로 대화 → 채팅</li>
-          <li>리더십 피드백 → 이 피드백으로 대화 → 채팅</li>
-        </ul>
-      </div>
+        {/* 토픽 → 채팅 (이 주제로 대화) */}
+        {(() => {
+          const line = <line x1={cx} y1={y3 + bh/2 + 10} x2={cx} y2={y4 - bh/2}
+            stroke="#9EA0B8" strokeWidth={1.5} markerEnd="url(#ah-blue)" />;
+          return <>{line}{label(cx + 50, y3 + bh/2 + 35, '이 주제로 대화')}</>;
+        })()}
+
+        {/* 리더십 피드백 → 채팅 (이 피드백으로 대화) */}
+        <path d={`M${l1x[3] + bw/2 + 5},${y1} L${w - 45},${y1} L${w - 45},${y4} L${cx + bw/2},${y4}`}
+          fill="none" stroke="#9EA0B8" strokeWidth={1.5} markerEnd="url(#ah-blue)" />
+        {label(w - 45, y1 + (y4 - y1) / 2 - 7, '이 피드백으로')}
+        {label(w - 45, y1 + (y4 - y1) / 2 + 7, '대화')}
+
+        {/* boxes (rendered last to be on top) */}
+        {box(cx, y0, 'flex CEO', 'root')}
+        {box(l1x[0], y1, '시그널', '')}
+        {box(l1x[1], y1, '캘린더', '')}
+        {box(l1x[2], y1, '음성 기록', '')}
+        {box(l1x[3], y1, '리더십 피드백', '')}
+        {box(cx, y2, '토픽', 'accent')}
+        {box(tcx[0], y3, '토픽 보관함', 'sub')}
+        {box(tcx[1], y3, '토픽 등록', 'sub')}
+        {box(cx, y4, '채팅', 'accent')}
+      </svg>
     </>
   );
 }
