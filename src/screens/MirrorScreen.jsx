@@ -37,6 +37,16 @@ export default function MirrorScreen({ onNavigate, onBack }) {
           </div>
         ))}
 
+        {/* actions */}
+        {m.actions && m.actions.length > 0 && (
+          <>
+            <div className="detail-label" style={{ marginTop: 20, marginBottom: 8 }}>액션 아이템 제안</div>
+            <ol className="action-items">
+              {m.actions.map((a, i) => <li key={i}>{a}</li>)}
+            </ol>
+          </>
+        )}
+
         {/* conversations */}
         <div className="detail-label" style={{ marginTop: 20, marginBottom: 8 }}>대화 내역 {m.conversations.length}건</div>
         {m.conversations.map((c, i) => (
